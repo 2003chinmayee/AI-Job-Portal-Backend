@@ -15,7 +15,8 @@ public class JwtUtil {
 
     // Secret key to sign our tokens
     // This should be kept SECRET — never share this!
-    private final Key secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    private final Key secretKey = Keys.hmacShaKeyFor(
+            "mySecretKey12345mySecretKey12345mySecretKey12345".getBytes());
 
     // Token expires in 24 hours (in milliseconds)
     private final long EXPIRATION_TIME = 86400000;

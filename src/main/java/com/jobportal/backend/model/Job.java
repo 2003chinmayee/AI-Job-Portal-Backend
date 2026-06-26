@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalDateTime;
 
 @Data
@@ -37,6 +40,10 @@ public class Job {
     private String jobType;         // "FULL_TIME" / "PART_TIME"
 
     private String experience;      // "0-2 years"
+
+    private Integer vacancies;
+
+    private LocalDate closingDate;
 
     @Column(nullable = false)
     private String postedBy;        // Email of recruiter who posted

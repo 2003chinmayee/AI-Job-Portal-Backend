@@ -21,27 +21,51 @@ public class UserService {
 
     // REGISTER
     public User registerUser(User user) {
+
+        // ─── Duplicate email check ────────────────────────────────────
         if (userRepository.existsByEmail(user.getEmail())) {
-            throw new RuntimeException("Email already exists!");
+            throw new RuntimeException("Email already registered! Please login.");
         }
-        // Encrypt password before saving
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        // ─── Duplicate phone check ────────────────────────────────────
+        if (user.getPhone() != null && !user.getPhone().isBlank()) {
+            if (userRepository.existsByPhone(user.getPhone())) {
+                throw new RuntimeException("Phone number already registered!");
+            }
+        }
+
+        // ─── Phone format check (10 digits) ──────────────────────────
+        if (user.getPhone() == null || user.getPhone().isBlank()) {
+            throw new RuntimeException("Phone number is required!");
+        }
+        if (!user.getPhone().matches("^[0-9]{10}$")) {
+            throw new RuntimeException("Phone number must be exactly 10 digits!");
+        }
+
+        // ─── Password strength check ──────────────────────────────────
+        String password = user.getPassword();
+        if (!password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")) {
+            throw new RuntimeException(
+                    "Password must be at least 8 characters and include: " +
+                            "one uppercase letter, one lowercase letter, " +
+                            "one number, and one special character (@$!%*?&)."
+            );
+        }
+
+        // ─── Save ─────────────────────────────────────────────────────
+        user.setPassword(passwordEncoder.encode(password));
         return userRepository.save(user);
     }
 
-    // LOGIN — returns JWT token
+    // LOGIN
     public String loginUser(String email, String password) {
-
-        // Find user by email
         User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found!"));
+                .orElseThrow(() -> new RuntimeException("No account found with this email!"));
 
-        // Check if password matches
         if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new RuntimeException("Invalid password!");
+            throw new RuntimeException("Incorrect password! Please try again.");
         }
 
-        // Generate and return JWT token
         return jwtUtil.generateToken(email);
     }
 

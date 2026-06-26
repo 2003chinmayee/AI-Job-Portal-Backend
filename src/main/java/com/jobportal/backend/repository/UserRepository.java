@@ -17,4 +17,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     // Becomes: SELECT * FROM users WHERE email = ? (returns true/false)
     boolean existsByEmail(String email);
+    boolean existsByPhone(String phone);
 }

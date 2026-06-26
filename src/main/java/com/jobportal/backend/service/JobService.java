@@ -63,4 +63,14 @@ public class JobService {
         existing.setExperience(updatedJob.getExperience());
         return jobRepository.save(existing);
     }
+
+    // TOGGLE job status (Open <-> Closed)
+    public Job toggleJobStatus(Long id) {
+
+        Job job = getJobById(id);
+
+        job.setActive(!job.isActive());
+
+        return jobRepository.save(job);
+    }
 }

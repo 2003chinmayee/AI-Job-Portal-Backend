@@ -8,7 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
+import com.jobportal.backend.repository.EducationMasterRepository;
+import com.jobportal.backend.model.EducationMaster;
+import com.jobportal.backend.model.CollegeMaster;
+import com.jobportal.backend.model.SkillMaster;
+import com.jobportal.backend.repository.CollegeMasterRepository;
+import com.jobportal.backend.repository.SkillMasterRepository;
 @Component
 public class DataLoader implements CommandLineRunner {
 
@@ -19,10 +24,75 @@ public class DataLoader implements CommandLineRunner {
     private UserRepository userRepository;
 
     @Autowired
+    private EducationMasterRepository educationMasterRepository;
+
+    @Autowired
+    private CollegeMasterRepository collegeMasterRepository;
+
+    @Autowired
+    private SkillMasterRepository skillMasterRepository;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args) throws Exception {
+
+
+        if (educationMasterRepository.count() == 0) {
+
+            educationMasterRepository.save(new EducationMaster("Computer Engineering"));
+            educationMasterRepository.save(new EducationMaster("Computer Science"));
+            educationMasterRepository.save(new EducationMaster("Information Technology"));
+            educationMasterRepository.save(new EducationMaster("Mechanical Engineering"));
+            educationMasterRepository.save(new EducationMaster("Civil Engineering"));
+            educationMasterRepository.save(new EducationMaster("Electrical Engineering"));
+            educationMasterRepository.save(new EducationMaster("Electronics Engineering"));
+            educationMasterRepository.save(new EducationMaster("MBA"));
+            educationMasterRepository.save(new EducationMaster("BCA"));
+            educationMasterRepository.save(new EducationMaster("MCA"));
+            educationMasterRepository.save(new EducationMaster("BSc Computer Science"));
+            educationMasterRepository.save(new EducationMaster("BCom"));
+            educationMasterRepository.save(new EducationMaster("MCom"));
+            educationMasterRepository.save(new EducationMaster("Doctor"));
+            educationMasterRepository.save(new EducationMaster("Pharmacist"));
+            educationMasterRepository.save(new EducationMaster("Other"));
+
+            System.out.println("✅ Education Master Data Loaded!");
+        }
+        if (collegeMasterRepository.count() == 0) {
+
+            collegeMasterRepository.save(new CollegeMaster("COEP"));
+            collegeMasterRepository.save(new CollegeMaster("PCCOE"));
+            collegeMasterRepository.save(new CollegeMaster("VIT Pune"));
+            collegeMasterRepository.save(new CollegeMaster("MIT-WPU"));
+            collegeMasterRepository.save(new CollegeMaster("DY Patil Akurdi"));
+            collegeMasterRepository.save(new CollegeMaster("Ajinkya DY Patil School of Engineering"));
+            collegeMasterRepository.save(new CollegeMaster("Sinhgad College of Engineering"));
+
+            System.out.println("✅ College Master Data Loaded!");
+        }
+        if (skillMasterRepository.count() == 0) {
+
+            skillMasterRepository.save(new SkillMaster("Java"));
+            skillMasterRepository.save(new SkillMaster("Spring Boot"));
+            skillMasterRepository.save(new SkillMaster("React"));
+            skillMasterRepository.save(new SkillMaster("Node.js"));
+            skillMasterRepository.save(new SkillMaster("MySQL"));
+            skillMasterRepository.save(new SkillMaster("MongoDB"));
+            skillMasterRepository.save(new SkillMaster("HTML"));
+            skillMasterRepository.save(new SkillMaster("CSS"));
+            skillMasterRepository.save(new SkillMaster("JavaScript"));
+            skillMasterRepository.save(new SkillMaster("Git"));
+            skillMasterRepository.save(new SkillMaster("Docker"));
+            skillMasterRepository.save(new SkillMaster("AWS"));
+            skillMasterRepository.save(new SkillMaster("Python"));
+            skillMasterRepository.save(new SkillMaster("Machine Learning"));
+            skillMasterRepository.save(new SkillMaster("Artificial Intelligence"));
+
+            System.out.println("✅ Skill Master Data Loaded!");
+        }
+
 
         // Only load data if database is empty
         if (userRepository.count() == 0) {

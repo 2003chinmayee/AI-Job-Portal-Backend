@@ -16,4 +16,12 @@ public interface ApplicationRepository extends JpaRepository<Application, Long> 
 
     // Check if candidate already applied to a job
     boolean existsByCandidateIdAndJobId(Long candidateId, Long jobId);
+
+    // Count applicants for a job
+    long countByJobId(Long jobId);
+
+    // Analytics
+    long countByStatus(String status);
+
+    long countByJobIdAndStatus(Long jobId, String status);
 }
